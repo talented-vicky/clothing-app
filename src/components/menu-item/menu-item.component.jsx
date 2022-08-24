@@ -1,9 +1,13 @@
 import React from 'react';
+import { useNavigate, useMatch } from 'react-router-dom';
 
 import './menu-item.styles.scss';
 
-const MenuItem = ({ title, imageUrl, size }) => (
-    <div className={`${size} menu-item`}>
+const MenuItem = ({ title, imageUrl, size, navigate, linkUrl, match}) => (
+    <div 
+        className={`${size} menu-item`}
+        onClick={() => navigate(`${linkUrl}`)}
+    >
         <div className='background-image'
             style={{backgroundImage: `url(${imageUrl})`}}
         />
@@ -14,4 +18,11 @@ const MenuItem = ({ title, imageUrl, size }) => (
     </div>
 );
 
+export function withRouter(MenuItem) {
+    return (props) => {
+        const navigate = useNavigate();
+        const match = useMatch();
+        return <MenuItem navigate={navigate} match={match} {...props} />
+    }
+}
 export default MenuItem;
