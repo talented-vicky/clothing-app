@@ -12,6 +12,41 @@ const firebaseConfig = {
     measurementId: "G-RX7SR7EJVV"
   }
 
+export const createUserProfileDoc = async (userAuth, moreData) => {
+  if(!userAuth) return;
+
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  // const userRef = firestore.collections(`users`);
+  // this gives us the "queryRef obj" that tells us only our current  
+  // location in the database
+  
+  const snapShot = await userRef.get(); 
+  // its properties tell us details about the data while its method 
+  // ".get()" in this case gives us the "snapShot obj" which gives us the 
+  // data in question
+  
+  
+  if(!snapShot.exists){
+    // const email = userAuth.email;
+    // const displayName = userAuth.displayName;
+    const { displayName, email } = userAuth;
+    const timeCreated = new Date();
+
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        timeCreated,
+        ...moreData
+      })
+    } catch(error) {
+      console.log(`an error occured creating user, ${error}`)
+    }
+  }
+  return userRef;
+}
+
+
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();

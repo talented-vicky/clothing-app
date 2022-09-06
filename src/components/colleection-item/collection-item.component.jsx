@@ -17,5 +17,3 @@ const CollectionItem = ({id, name, imageUrl, price}) => (
 )
 
 export default CollectionItem;
-
-// remember to add shop page footer edit in commit
