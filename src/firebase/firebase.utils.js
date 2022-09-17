@@ -27,8 +27,6 @@ export const createUserProfileDoc = async (userAuth, moreData) => {
   
   
   if(!snapShot.exists){
-    // const email = userAuth.email;
-    // const displayName = userAuth.displayName;
     const { displayName, email } = userAuth;
     const timeCreated = new Date();
 
